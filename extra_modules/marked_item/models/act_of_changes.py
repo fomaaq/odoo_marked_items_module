@@ -23,29 +23,38 @@ class ActOfChanges(models.Model):
 
     def action_apply(self):
         if self.applicable_status == 'buy':
-            marked_item = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_where.id)])
-            if marked_item:
-                new_quantity = marked_item.product_quantity + self.product_quantity
-                marked_item.write({'product_quantity': new_quantity})
-            else:
-                marked_item.create({'product': self.product.id, 'product_quantity': self.product_quantity, 'stock': self.stock_where.id})
+            self.apply_buy()
     
         if self.applicable_status == 'movement':
-            marked_item_from = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_from.id), ('product_quantity', '>', self.product_quantity)])
-            if marked_item_from:
-                marked_item_from.write({'product_quantity': marked_item_from.product_quantity - self.product_quantity})
-            else:
-                raise UserError('Товар не найден на складе в количестве, указанном в акте')
+            self.apply_movement()
             
-            marked_item_where = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_where.id)])
-            if marked_item_where:
-                new_quantity = marked_item_where.product_quantity + self.product_quantity
-                marked_item_where.write({'product_quantity': new_quantity})
-            else:
-                marked_item_where.create({'product': self.product.id, 'product_quantity': self.product_quantity, 'stock': self.stock_where.id})
-
         if self.applicable_status == 'sell':
-            marked_item = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_from.id)])
-            if marked_item:
-                new_quantity = marked_item.product_quantity - self.product_quantity
-                marked_item.write({'product_quantity': new_quantity})
+            self.apply_sell()
+
+    def apply_buy(self):
+        marked_item = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_where.id)])
+        if marked_item:
+            new_quantity = marked_item.product_quantity + self.product_quantity
+            marked_item.write({'product_quantity': new_quantity})
+        else:
+            marked_item.create({'product': self.product.id, 'product_quantity': self.product_quantity, 'stock': self.stock_where.id})
+
+    def apply_movement(self):
+        marked_item_from = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_from.id), ('product_quantity', '>', self.product_quantity)])
+        if marked_item_from:
+            marked_item_from.write({'product_quantity': marked_item_from.product_quantity - self.product_quantity})
+        else:
+            raise UserError('Товар не найден на складе в количестве, указанном в акте')
+        
+        marked_item_where = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_where.id)])
+        if marked_item_where:
+            new_quantity = marked_item_where.product_quantity + self.product_quantity
+            marked_item_where.write({'product_quantity': new_quantity})
+        else:
+            marked_item_where.create({'product': self.product.id, 'product_quantity': self.product_quantity, 'stock': self.stock_where.id})
+
+    def apply_sell(self):
+        marked_item = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_from.id)])
+        if marked_item:
+            new_quantity = marked_item.product_quantity - self.product_quantity
+            marked_item.write({'product_quantity': new_quantity})
