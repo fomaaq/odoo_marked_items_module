@@ -19,15 +19,16 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base',
         'stock',
         ],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'security/ir.model.access.csv',
+        'views/marked_item_view.xml',
+        'views/marked_item_menus.xml',
+        # 'views/views.xml',
+        # 'views/templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

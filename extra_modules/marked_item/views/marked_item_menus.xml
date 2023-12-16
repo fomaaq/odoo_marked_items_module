@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+
+    <menuitem id="marked_item_menu_root" name="Маркированный товар">
+        <menuitem id="product_item_first_level_menu" name="Товары (немаркированные)" action="product_item_model_action"/>
+    </menuitem>
+
+    <menuitem id="marked_item_menu_root" name="Маркированный товар">
+        <menuitem id="act_of_changes_first_level_menu" name="Акты изменения состояния товары" action="act_of_changes_model_action"/>
+    </menuitem>
+
+    <menuitem id="marked_item_menu_root" name="Маркированный товар">
+        <menuitem id="marked_product_item_first_level_menu" name="Маркированные товары" action="marked_product_item_model_action"/>
+    </menuitem>
+
+  </data>
+</odoo>

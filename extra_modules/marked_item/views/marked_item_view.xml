@@ -1,0 +1,23 @@
+<odoo>
+  <data>
+
+    <record id="product_item_model_action" model="ir.actions.act_window">
+        <field name="name">Товары</field>
+        <field name="res_model">product_item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="act_of_changes_model_action" model="ir.actions.act_window">
+        <field name="name">Акты изменения состояния товара</field>
+        <field name="res_model">act_of_changes</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="marked_product_item_model_action" model="ir.actions.act_window">
+        <field name="name">Маркированные товары</field>
+        <field name="res_model">marked_product_item</field>
+        <field name="view_mode">tree,form</field>
+    </record> 
+
+  </data>
+</odoo>

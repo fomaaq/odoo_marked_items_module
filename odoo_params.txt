@@ -1,4 +1,0 @@
-master password: fh7q-93nb-yehi
-db name: my_db
-e-mail: admin@admin.ru
-password: admin

@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_marked_item_marked_item,marked_item.marked_item,model_marked_item_marked_item,base.group_user,1,1,1,1
+access_product_item,access_product_item,model_product_item,base.group_user,1,1,1,1
+access_act_of_changes,access_act_of_changes,model_act_of_changes,base.group_user,1,1,1,1
+access_marked_product_item,access_marked_product_item,model_marked_product_item,base.group_user,1,0,0,1

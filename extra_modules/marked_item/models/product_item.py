@@ -1,8 +1,8 @@
 from odoo import models, fields
 
 
-class product_item(models.Model):
-    _name = 'product.item'
+class ProductItem(models.Model):
+    _name = 'product_item'
     _description = 'Товар (без маркировки)'
 
     name = fields.Char('Наименование товара', required=True)
