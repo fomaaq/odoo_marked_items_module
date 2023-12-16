@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+
+    <record id="status_item_action_buy" model="status_item">
+        <field name="name">Покупка</field>
+    </record>
+
+    <record id="status_item_action_movement" model="status_item">
+        <field name="name">Внутреннее перемещение</field>
+    </record>
+
+    <record id="status_item_action_sell" model="status_item">
+        <field name="name">Продажа</field>
+    </record>
+
+  </data>
+</odoo>

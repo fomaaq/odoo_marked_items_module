@@ -13,8 +13,10 @@
               <field name="name"/>
               <field name="date"/>
               <field name="applicable_status"/>
-              <field name="stock_from" invisible="applicable_status == 'buy'"/>
-              <field name="stock_where" invisible="applicable_status == 'sell'"/>
+              <field name="is_status_buy" invisible="1"/>
+              <field name="is_status_sell" invisible="1"/>
+              <field name="stock_from" invisible="is_status_buy == True"/>
+              <field name="stock_where" invisible="is_status_sell == True"/>
               <field name="product"/>
               <field name="product_quantity"/>
             </group>

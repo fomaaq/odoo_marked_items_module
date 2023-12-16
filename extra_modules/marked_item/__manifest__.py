@@ -28,6 +28,7 @@
         'views/marked_item_view.xml',
         'views/marked_item_menus.xml',
         'views/views.xml',
+        'views/status_item.xml',
         # 'views/templates.xml',
     ],
     # only loaded in demonstration mode

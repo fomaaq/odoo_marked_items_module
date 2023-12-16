@@ -13,5 +13,10 @@
         <menuitem id="marked_product_item_first_level_menu" name="Маркированные товары" action="marked_product_item_model_action"/>
     </menuitem>
 
+    <menuitem id="marked_item_menu_root" name="Маркированный товар">
+        <menuitem id="status_item_first_level_menu" name="Справочник статусов состояния" action="status_item_model_action"/>
+    </menuitem>
+
+
   </data>
 </odoo>
