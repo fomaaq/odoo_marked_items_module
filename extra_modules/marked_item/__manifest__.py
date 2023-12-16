@@ -9,7 +9,7 @@
     """,
 
     'author': "Viktor",
-    'website': "https://github.com/fomaaq",
+    'website': "https://github.com/fomaaq/odoo_marked_items_module",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
