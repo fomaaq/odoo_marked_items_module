@@ -17,7 +17,7 @@
         <field name="name">Маркированные товары</field>
         <field name="res_model">marked_product_item</field>
         <field name="view_mode">tree,form</field>
-    </record> 
+    </record>
 
   </data>
 </odoo>

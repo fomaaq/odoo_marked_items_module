@@ -35,7 +35,7 @@ case "$1" in
             exec odoo "$@"
         else
             wait-for-psql.py ${DB_ARGS[@]} --timeout=30
-            exec odoo "$@" "${DB_ARGS[@]}"
+            python3 -m debugpy --listen 0.0.0.0:5678 usr/bin/odoo "$@" "${DB_ARGS[@]}" --dev=all
         fi
         ;;
     -*)
