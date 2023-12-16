@@ -1,0 +1,23 @@
+version: '3.1'
+services:
+  web:
+    depends_on:
+      - db
+    build:
+        context: .
+        dockerfile: Dockerfile
+    ports:
+      - "8099:8069"
+      - "5678:5678"
+    volumes:
+        - ./extra_modules:/mnt/extra-addons/
+        - ./entrypoint.sh:/entrypoint.sh
+        - ./odoo.conf:/etc/odoo/odoo.conf
+  db:
+    image: postgres:16
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
