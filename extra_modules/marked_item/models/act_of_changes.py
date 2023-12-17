@@ -48,21 +48,48 @@ class ActOfChanges(models.Model):
             self.apply_sell()
 
     def apply_buy(self):
-        new_marked_item = self.env['marked_product_item'].create({'product': self.product.id, 'product_quantity': self.product_quantity, 'last_status': self.applicable_status.name, 'stock': self.stock_where.id})
+        new_marked_item = self.env['marked_product_item'].create(
+            {
+                'product': self.product.id,
+                'product_quantity': self.product_quantity,
+                'last_status': self.applicable_status.name,
+                'stock': self.stock_where.id
+            }
+        )
         self.write_costs_receipts(new_marked_item)
 
     def apply_movement(self):
-        marked_item = self.env['marked_product_item'].search([('id', 'in', self.marked_product.ids), ('stock', '=', self.stock_from.id)])
+        marked_item = self.env['marked_product_item'].search(
+            [
+                ('id', 'in', self.marked_product.ids),
+                ('stock', '=', self.stock_from.id)
+            ]
+        )
         if marked_item:
-            marked_item.write({'last_status': self.applicable_status.name, 'stock': self.stock_where.id})
+            marked_item.write(
+                {
+                    'last_status': self.applicable_status.name,
+                    'stock': self.stock_where.id
+                }
+            )
             self.write_costs_receipts(marked_item)
         else:
             raise UserError('Указанный маркированный товар не найден на складе, указанном в акте')
 
     def apply_sell(self):
-        marked_item = self.env['marked_product_item'].search([('id', 'in', self.marked_product.ids), ('stock', '=', self.stock_from.id)])
+        marked_item = self.env['marked_product_item'].search(
+            [
+                ('id', 'in', self.marked_product.ids),
+                ('stock', '=', self.stock_from.id)
+            ]
+        )
         if marked_item:
-            marked_item.write({'last_status': self.applicable_status.name, 'stock': self.stock_from.id})
+            marked_item.write(
+                {
+                    'last_status': self.applicable_status.name,
+                    'stock': self.stock_from.id
+                }
+            )
             self.write_costs_receipts(marked_item)
         else:
             raise UserError('Указанный маркированный товар не найден на складе, указанном в акте')
@@ -74,4 +101,11 @@ class ActOfChanges(models.Model):
 
     def write_costs_receipts(self, marked_item):
         for article in self.costs_receipts_ids:
-            self.env['marked_item_costs_receipts_item'].create({'apply_date': self.date, 'cost_receipt': article.cost_receipt.id, 'price': article.price, 'marked_item': marked_item.id})
+            self.env['marked_item_costs_receipts_item'].create(
+                {
+                    'apply_date': self.date,
+                    'cost_receipt': article.cost_receipt.id,
+                    'price': article.price,
+                    'marked_item': marked_item.id
+                }
+            )
