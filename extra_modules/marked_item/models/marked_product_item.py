@@ -9,4 +9,5 @@ class MarkedProductItem(models.Model):
     description = fields.Text(related='product.description')
     product_quantity = fields.Integer('Количество товаров', required=True)
     product = fields.Many2one(string='Товар', required=True, comodel_name='product_item')
-    stock = fields.Many2one(string='Склад', comodel_name='stock.warehouse')
+    last_status = fields.Char('Последний назначенный статус', required=True)
+    stock = fields.Many2one(string='Последний назначенный cклад', comodel_name='stock.warehouse')

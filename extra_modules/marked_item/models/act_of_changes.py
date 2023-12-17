@@ -2,12 +2,6 @@ from datetime import date
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 
-# SELECTION_LIST = [
-#     ('buy', 'Покупка'),
-#     ('movement', 'Внутреннее перемещение'),
-#     ('sell', 'Продажа'),
-# ]
-
 
 class ActOfChanges(models.Model):
     _name = 'act_of_changes'
@@ -20,8 +14,9 @@ class ActOfChanges(models.Model):
     is_status_sell = fields.Boolean(compute='compute_is_sell')
     stock_from = fields.Many2one(string='Применить для маркированных товаров со склада', comodel_name='stock.warehouse')
     stock_where = fields.Many2one(string='Назначить новый склад', comodel_name='stock.warehouse')
-    product = fields.Many2one(string='Товар', required=True, comodel_name='product_item')
-    product_quantity = fields.Integer('Количество товаров', required=True)
+    product = fields.Many2one(string='Товар', comodel_name='product_item')
+    marked_product = fields.Many2one(string='Маркированный товар', comodel_name='marked_product_item')
+    product_quantity = fields.Integer('Количество товаров')
 
     @api.depends('applicable_status')
     def compute_is_buy(self):
@@ -52,31 +47,18 @@ class ActOfChanges(models.Model):
             self.apply_sell()
 
     def apply_buy(self):
-        marked_item = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_where.id)])
-        if marked_item:
-            new_quantity = marked_item.product_quantity + self.product_quantity
-            marked_item.write({'product_quantity': new_quantity})
-        else:
-            marked_item.create({'product': self.product.id, 'product_quantity': self.product_quantity, 'stock': self.stock_where.id})
+        self.env['marked_product_item'].create({'product': self.product.id, 'product_quantity': self.product_quantity, 'last_status': self.applicable_status.name, 'stock': self.stock_where.id})
 
     def apply_movement(self):
-        marked_item_from = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_from.id), ('product_quantity', '>', self.product_quantity)])
-        if marked_item_from:
-            marked_item_from.write({'product_quantity': marked_item_from.product_quantity - self.product_quantity})
+        marked_item = self.env['marked_product_item'].search([('name', '=', self.marked_product.name), ('stock', '=', self.stock_from.id)])
+        if marked_item:
+            marked_item.write({'last_status': self.applicable_status.name, 'stock': self.stock_where.id})
         else:
-            raise UserError('Товар не найден на складе в количестве, указанном в акте')
-        
-        marked_item_where = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_where.id)])
-        if marked_item_where:
-            new_quantity = marked_item_where.product_quantity + self.product_quantity
-            marked_item_where.write({'product_quantity': new_quantity})
-        else:
-            marked_item_where.create({'product': self.product.id, 'product_quantity': self.product_quantity, 'stock': self.stock_where.id})
+            raise UserError('Указанный маркированный товар не найден на складе, указанном в акте')
 
     def apply_sell(self):
-        marked_item = self.env['marked_product_item'].search([('product', '=', self.product.id), ('stock', '=', self.stock_from.id), ('product_quantity', '>', self.product_quantity)])
+        marked_item = self.env['marked_product_item'].search([('name', '=', self.marked_product.name), ('stock', '=', self.stock_from.id)])
         if marked_item:
-            new_quantity = marked_item.product_quantity - self.product_quantity
-            marked_item.write({'product_quantity': new_quantity})
+            marked_item.write({'last_status': self.applicable_status.name, 'stock': self.stock_from.id})
         else:
-            raise UserError('Товар не найден на складе в количестве, указанном в акте')
+            raise UserError('Указанный маркированный товар не найден на складе, указанном в акте')

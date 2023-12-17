@@ -19,11 +19,5 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="status_item_model_action" model="ir.actions.act_window">
-        <field name="name">Справочник статусов состояния</field>
-        <field name="res_model">status_item</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
   </data>
 </odoo>
