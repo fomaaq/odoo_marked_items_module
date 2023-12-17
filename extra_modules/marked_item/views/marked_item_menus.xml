@@ -14,7 +14,10 @@
     </menuitem>
 
     <menuitem id="marked_item_menu_root" name="Маркированный товар">
-        <menuitem id="status_item_first_level_menu" name="Справочник статусов состояния" action="status_item_model_action"/>
+        <menuitem id="collections_level_menu" name="Справочники">
+          <menuitem id="status_item_first_level_menu" name="Статусы состояния" action="status_item_model_action"/>
+          <menuitem id="costs_receipts_item_first_level_menu" name="Статьи затрат/прихода" action="costs_receipts_item_model_action"/>
+        </menuitem>
     </menuitem>
 
   </data>

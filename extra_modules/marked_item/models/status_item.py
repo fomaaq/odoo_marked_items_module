@@ -5,4 +5,4 @@ class StatusItem(models.Model):
     _name = 'status_item'
     _description = 'Статус состояния товара'
 
-    name = fields.Char('Наименование состояния', required=True)
+    name = fields.Char(string='Наименование состояния', required=True)

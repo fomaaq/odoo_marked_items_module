@@ -29,7 +29,7 @@
         'views/marked_item_menus.xml',
         'views/views.xml',
         'views/status_item.xml',
-        # 'views/templates.xml',
+        'views/ir_sequence.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

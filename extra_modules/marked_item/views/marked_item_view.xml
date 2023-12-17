@@ -19,5 +19,18 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+
+    <record id="status_item_model_action" model="ir.actions.act_window">
+        <field name="name">Справочник статусов состояния</field>
+        <field name="res_model">status_item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+      <record id="costs_receipts_item_model_action" model="ir.actions.act_window">
+        <field name="name">Статьи затрат/прихода</field>
+        <field name="res_model">costs_receipts_item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
   </data>
 </odoo>

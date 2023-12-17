@@ -15,8 +15,9 @@ class ActOfChanges(models.Model):
     stock_from = fields.Many2one(string='Применить для маркированных товаров со склада', comodel_name='stock.warehouse')
     stock_where = fields.Many2one(string='Назначить новый склад', comodel_name='stock.warehouse')
     product = fields.Many2one(string='Товар', comodel_name='product_item')
-    marked_product = fields.Many2one(string='Маркированный товар', comodel_name='marked_product_item')
-    product_quantity = fields.Integer('Количество товаров')
+    marked_product = fields.Many2many(string='Маркированный товар', required=True, comodel_name='marked_product_item')
+    product_quantity = fields.Integer(string='Количество товаров')
+    costs_receipts_ids = fields.One2many(string='Затраты/приходы', comodel_name='act_costs_receipts_item', inverse_name='act_of_changes')
 
     @api.depends('applicable_status')
     def compute_is_buy(self):
@@ -50,15 +51,20 @@ class ActOfChanges(models.Model):
         self.env['marked_product_item'].create({'product': self.product.id, 'product_quantity': self.product_quantity, 'last_status': self.applicable_status.name, 'stock': self.stock_where.id})
 
     def apply_movement(self):
-        marked_item = self.env['marked_product_item'].search([('name', '=', self.marked_product.name), ('stock', '=', self.stock_from.id)])
+        marked_item = self.env['marked_product_item'].search([('id', 'in', self.marked_product.ids), ('stock', '=', self.stock_from.id)])
         if marked_item:
             marked_item.write({'last_status': self.applicable_status.name, 'stock': self.stock_where.id})
         else:
             raise UserError('Указанный маркированный товар не найден на складе, указанном в акте')
 
     def apply_sell(self):
-        marked_item = self.env['marked_product_item'].search([('name', '=', self.marked_product.name), ('stock', '=', self.stock_from.id)])
+        marked_item = self.env['marked_product_item'].search([('id', 'in', self.marked_product.ids), ('stock', '=', self.stock_from.id)])
         if marked_item:
             marked_item.write({'last_status': self.applicable_status.name, 'stock': self.stock_from.id})
         else:
             raise UserError('Указанный маркированный товар не найден на складе, указанном в акте')
+
+    def create(self, vals):
+        if vals.get('name', 'Акт изменения состояния товара № ') == 'Акт изменения состояния товара № ':
+            vals['name'] = self.env['ir.sequence'].next_by_code('act_of_changes') or 'Акт изменения состояния товара № '
+        return super().create(vals)
