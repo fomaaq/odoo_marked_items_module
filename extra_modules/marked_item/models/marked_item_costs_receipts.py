@@ -7,4 +7,4 @@ class MarkedItemCostsReferencesItem(models.Model):
 
     cost_receipt = fields.Many2one(string='Наименование статьи', required=True, comodel_name='costs_receipts_item')
     price = fields.Float(string='Значение, руб.', required=True)
-    marked_item = fields.Many2one(comodel_name='marked_product_item')
+    marked_item = fields.Many2one(string='Наименование маркированного товара', comodel_name='marked_product_item')

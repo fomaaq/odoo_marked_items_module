@@ -13,9 +13,14 @@ class MarkedProductItem(models.Model):
     last_status = fields.Char(string='Последний назначенный статус', required=True)
     stock = fields.Many2one(string='Последний назначенный cклад', comodel_name='stock.warehouse')
     costs_receipts_ids = fields.One2many(string='Затраты/приходы', comodel_name='marked_item_costs_receipts_item', inverse_name='marked_item')
+    summ_costs_receipt = fields.Float(string='Прибыль/убыток', compute='compute_summ_costs_receipt')
 
     def create(self, vals):
         product = vals.get('product', False)
         product_name = self.env['product_item'].browse([product,]).name
         vals['name'] = product_name + '-' + self.env['ir.sequence'].next_by_code('marked_product_item')
         return super().create(vals)
+
+    def compute_summ_costs_receipt(self):
+        for record in self:
+            record.summ_costs_receipt = sum(record.costs_receipts_ids.mapped('price'))

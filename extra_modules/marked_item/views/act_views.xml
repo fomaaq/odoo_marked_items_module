@@ -1,0 +1,36 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="act_of_changes_list">
+      <field name="name">act_of_changes list</field>
+      <field name="model">act_of_changes</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+              <button name="action_apply" type="object" string="Применить акт"/>
+          </header>
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="date"/>
+              <field name="applicable_status"/>
+              <field name="is_status_buy" invisible="1"/>
+              <field name="is_status_sell" invisible="1"/>
+              <field name="stock_from" invisible="is_status_buy == True"/>
+              <field name="stock_where" invisible="is_status_sell == True"/>
+              <field name="product" invisible="is_status_buy == False"/>
+              <field name="marked_product" invisible="is_status_buy == True"/>
+              <field name="product_quantity" invisible="is_status_buy == False"/>
+              <field name="costs_receipts_ids" context='{"default_act_of_changes": id}'>
+                <tree>
+                  <field name="cost_receipt"/>
+                  <field name="price"/>
+                </tree>
+              </field>        
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+  </data>
+</odoo>

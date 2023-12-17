@@ -1,0 +1,31 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="marked_product_item_list">
+      <field name="name">marked_product_item list</field>
+      <field name="model">marked_product_item</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="description"/>
+              <field name="product_quantity"/>
+              <field name="product"/>
+              <field name="last_status"/>
+              <field name="stock"/>
+              <field name="costs_receipts_ids" context='{"default_marked_product_item": id}'>
+                <tree>
+                  <field name="cost_receipt"/>
+                  <field name="price"/>
+                </tree>
+              </field>
+              <field name="summ_costs_receipt"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+  </data>
+</odoo>

@@ -27,9 +27,10 @@
         'security/ir.model.access.csv',
         'views/marked_item_view.xml',
         'views/marked_item_menus.xml',
-        'views/views.xml',
+        'views/act_views.xml',
         'views/status_item.xml',
         'views/ir_sequence.xml',
+        'views/marked_product_item_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
