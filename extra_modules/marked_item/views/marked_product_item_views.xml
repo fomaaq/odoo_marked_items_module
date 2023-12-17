@@ -16,6 +16,7 @@
               <field name="stock"/>
               <field name="costs_receipts_ids" context='{"default_marked_product_item": id}'>
                 <tree>
+                  <field name="apply_date"/>
                   <field name="cost_receipt"/>
                   <field name="price"/>
                 </tree>

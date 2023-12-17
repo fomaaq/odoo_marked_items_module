@@ -74,4 +74,4 @@ class ActOfChanges(models.Model):
 
     def write_costs_receipts(self, marked_item):
         for article in self.costs_receipts_ids:
-            self.env['marked_item_costs_receipts_item'].create({'cost_receipt': article.cost_receipt.id, 'price': article.price, 'marked_item': marked_item.id})
+            self.env['marked_item_costs_receipts_item'].create({'apply_date': self.date, 'cost_receipt': article.cost_receipt.id, 'price': article.price, 'marked_item': marked_item.id})
